@@ -63,7 +63,7 @@ class SavingsAccount extends BankAccount implements InterestBearing{
   SavingsAccount({
     required super._actNumber,
     required super._actName,
-    required super._balance,
+    required super._balance
 
   });
 
@@ -71,7 +71,7 @@ class SavingsAccount extends BankAccount implements InterestBearing{
   void deposit(double amount) {
     if(amount>0){
       updateBalance(_balance+amount);
-      print("Rs.$amount deposited into Saving Account");
+      print("\$$amount deposited into Saving Account");
     }else{
       print("Deposit amount should be positive.");
     }
@@ -87,11 +87,11 @@ class SavingsAccount extends BankAccount implements InterestBearing{
       return;
     }
     if(_balance-amount<_minBalance){
-      print("Cannot withdraw: Mininum withdraw amount is $_minBalance");
+      print("Cannot withdraw: Mininum withdraw amount is \$$_minBalance");
     }
     updateBalance(_balance - amount);
     _withdrawalCount++;
-    print("Amount of Rs.$amount withdrawn from Saving Account");
+    print("Amount of \$$amount withdrawn from Saving Account");
     
   }
   
@@ -99,7 +99,7 @@ class SavingsAccount extends BankAccount implements InterestBearing{
   void calculateInterest() {
     double interestAmt = _balance*_interrestRate;
     updateBalance(_balance+interestAmt);
-    print("Interest of $interestAmt was added.");
+    print("Interest of \$$interestAmt was added.");
     
   }
   
@@ -107,20 +107,40 @@ class SavingsAccount extends BankAccount implements InterestBearing{
 
 //Checking Account
 
-class CheckingAccount extends BankAccount implements InterestBearing{
-  @override
-  void calculateInterest() {
-    // TODO: implement calculateInterest
-  }
+class CheckingAccount extends BankAccount{
+  static const _overdraftFee=35;
+
+  CheckingAccount({
+    required super._actNumber,
+    required super._actName,
+    required super._balance
+
+  });
+
 
   @override
   void deposit(double amount) {
-    // TODO: implement deposit
+    if(amount>0){
+      updateBalance(_balance+amount);
+      print("$amount deposited into Current Account");
+    }else{
+      print("Deposit amount should be positive.");
+    }
   }
+
 
   @override
   void withdraw(double amount) {
-    // TODO: implement withdraw
+    if(amount<=0){
+      print("Invaild withdraw amount.");
+      return;
+    }
+    updateBalance(_balance-amount);
+    if(_balance<0){
+      updateBalance(_balance-_overdraftFee);
+      print("\$$_overdraftFee was detucted from your account.");
+    }
+    print("Amount of \$$amount was withdrawn from Saving Account.")
   }
 
 
