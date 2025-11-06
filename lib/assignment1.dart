@@ -1,231 +1,256 @@
-abstract class BankAccount{
+// -------------------------------------
+// Abstract Base Class
+// -------------------------------------
+abstract class BankAccount {
   String _actNumber;
   String _actName;
   double _balance;
 
   BankAccount({
-    required this._actNumber,
-    required this._actName,
-    required this._balance
-  });
+    required String actNumber,
+    required String actName,
+    required double balance,
+  })  : _actNumber = actNumber,
+        _actName = actName,
+        _balance = balance;
 
-  String get accountNumber{
-    return _actNumber;
-  }
-  set setactNumber(int actNumber){
-    _actNumber=actNumber;
-  }
+  // Getters and Setters
+  String get accountNumber => _actNumber;
+  set accountNumber(String actNumber) => _actNumber = actNumber;
 
-  String get holderName{
-    return _actName;
-  }
-  set setactName(String actName){
-    _actName=actName;
-  }
-  int get balance{
-    return _balance;
-  }
-  set setBalance(double balance){
-    _balance=balance;
-  }
+  String get holderName => _actName;
+  set holderName(String actName) => _actName = actName;
 
+  double get balance => _balance;
+  set balance(double balance) => _balance = balance;
+
+  // Abstract methods
   void withdraw(double amount);
   void deposit(double amount);
 
-  void displayInfo(){
-    print("Accont Number:$_actNumber");
-    print("Accont Holder Name:$_actName");
-    print("Balancer:$_balance");
-
-
+  void displayInfo() {
+    print("--------------------------");
+    print("Account Number: $_actNumber");
+    print("Account Holder Name: $_actName");
+    print("Balance: \$$_balance");
   }
 
-  void updateBalance(double newAmount){
-    _balance=newAmount;
+  void updateBalance(double newAmount) {
+    _balance = newAmount;
   }
-
-
 }
 
-abstract class InterestBearing{
+// -------------------------------------
+// Interest Interface
+// -------------------------------------
+abstract class InterestBearing {
   void calculateInterest();
 }
 
-//Saving Account
-
-class SavingsAccount extends BankAccount implements InterestBearing{
-
+// -------------------------------------
+// Savings Account
+// -------------------------------------
+class SavingsAccount extends BankAccount implements InterestBearing {
   static const double _minBalance = 500;
-  static const double _interrestRate=0.02;
-  int _withdrawalCount= 0;
-  static const int _withdrawalLimit=3;
+  static const double _interestRate = 0.02;
+  int _withdrawalCount = 0;
+  static const int _withdrawalLimit = 3;
 
   SavingsAccount({
-    required super._actNumber,
-    required super._actName,
-    required super._balance
-
+    required super.actNumber,
+    required super.actName,
+    required super.balance,
   });
 
   @override
   void deposit(double amount) {
-    if(amount>0){
-      updateBalance(_balance+amount);
-      print("\$$amount deposited into Saving Account");
-    }else{
+    if (amount > 0) {
+      updateBalance(balance + amount);
+      print("\$$amount deposited into Savings Account");
+    } else {
       print("Deposit amount should be positive.");
     }
-
-
-
   }
 
   @override
   void withdraw(double amount) {
-    if(_withdrawalCount>=_withdrawalLimit){
-      print("Withdrawl limit reached for this month.");
+    if (_withdrawalCount >= _withdrawalLimit) {
+      print("Withdrawal limit reached for this month.");
       return;
     }
-    if(_balance-amount<_minBalance){
-      print("Cannot withdraw: Mininum withdraw amount is \$$_minBalance");
+    if (balance - amount < _minBalance) {
+      print("Cannot withdraw: Minimum balance of \$$_minBalance must be maintained.");
+      return; // ✅ added return to stop withdrawal
     }
-    updateBalance(_balance - amount);
+
+    updateBalance(balance - amount);
     _withdrawalCount++;
-    print("Amount of \$$amount withdrawn from Saving Account");
-    
+    print("Amount of \$$amount withdrawn from Savings Account.");
   }
-  
+
   @override
   void calculateInterest() {
-    double interestAmt = _balance*_interrestRate;
-    updateBalance(_balance+interestAmt);
-    print("Interest of \$$interestAmt was added.");
-    
+    double interestAmt = balance * _interestRate;
+    updateBalance(balance + interestAmt);
+    print("Interest of \$$interestAmt was added to Savings Account.");
   }
-  
 }
 
-//Checking Account
-
-class CheckingAccount extends BankAccount{
-  static const _overdraftFee=35;
+// -------------------------------------
+// Checking Account
+// -------------------------------------
+class CheckingAccount extends BankAccount {
+  static const double _overdraftFee = 35;
 
   CheckingAccount({
-    required super._actNumber,
-    required super._actName,
-    required super._balance
-
+    required super.actNumber,
+    required super.actName,
+    required super.balance,
   });
-
 
   @override
   void deposit(double amount) {
-    if(amount>0){
-      updateBalance(_balance+amount);
-      print("$amount deposited into Current Account");
-    }else{
+    if (amount > 0) {
+      updateBalance(balance + amount);
+      print("\$$amount deposited into Checking Account");
+    } else {
       print("Deposit amount should be positive.");
     }
   }
 
-
   @override
   void withdraw(double amount) {
-    if(amount<=0){
-      print("Invaild withdraw amount.");
+    if (amount <= 0) {
+      print("Invalid withdrawal amount.");
       return;
     }
-    updateBalance(_balance-amount);
-    if(_balance<0){
-      updateBalance(_balance-_overdraftFee);
-      print("\$$_overdraftFee was detucted from your account.");
+
+    updateBalance(balance - amount);
+    if (balance < 0) {
+      updateBalance(balance - _overdraftFee);
+      print("\$$_overdraftFee overdraft fee applied.");
     }
-    print("Amount of \$$amount was withdrawn from Saving Account.")
+
+    print("Amount of \$$amount withdrawn from Checking Account.");
   }
-
-
 }
 
-class PreminumAccount extends BankAccount implements InterestBearing{
-  static const _minBalance=1000;
-  static const _interrestRate=0.05;
+// -------------------------------------
+// Premium Account
+// -------------------------------------
+class PremiumAccount extends BankAccount implements InterestBearing {
+  static const double _minBalance = 10000;
+  static const double _interestRate = 0.05;
 
-  PreminumAccount({
-     required super._actNumber,
-    required super._actName,
-    required super._balance
+  PremiumAccount({
+    required super.actNumber,
+    required super.actName,
+    required super.balance,
   });
+
   @override
   void deposit(double amount) {
-    if(amount>0){
-      updateBalance(_balance+amount);
-      print("$amount deposited into Premium Account");
-    }else{
+    if (amount > 0) {
+      updateBalance(balance + amount);
+      print("\$$amount deposited into Premium Account");
+    } else {
       print("Deposit amount should be positive.");
     }
-    
   }
 
   @override
   void withdraw(double amount) {
-    if(_balance-amount<_minBalance){
-      print("Minium balance of \$$_minBalance should be maintained.");
+    if (balance - amount < _minBalance) {
+      print("Minimum balance of \$$_minBalance must be maintained.");
       return;
     }
-    updateBalance(_balance-amount);
-    print("Amount of \$$amount withdrawn from Premium Account");
+
+    updateBalance(balance - amount);
+    print("Amount of \$$amount withdrawn from Premium Account.");
   }
-  
+
   @override
   void calculateInterest() {
-    double interestAmt = _balance*_interrestRate;
-    updateBalance(_balance+interestAmt);
-    print("Interest of \$$interestAmt was added.");
+    double interestAmt = balance * _interestRate;
+    updateBalance(balance + interestAmt);
+    print("Interest of \$$interestAmt was added to Premium Account.");
   }
-
 }
 
-class Bank{
-  final List<BankAccount> _accounts=[];
+// -------------------------------------
+// Bank Class
+// -------------------------------------
+class Bank {
+  final List<BankAccount> _accounts = [];
 
-  void createBankAccount(BankAccount account){
+  void createBankAccount(BankAccount account) {
     _accounts.add(account);
-    print("Bank account of Account Number:${_accounts.accountNumber} was created sucessfully.");
+    print("Bank account ${account.accountNumber} created successfully.");
   }
 
-  BankAccount? findAccount(String accountNumber){
-    for(var account in _accounts){
-      if(account.accountNumber==accountNumber){
+  BankAccount? findAccount(String accountNumber) {
+    for (var account in _accounts) {
+      if (account.accountNumber == accountNumber) {
         return account;
       }
     }
     return null;
   }
 
-  void tranfer(String fromAcc,String toAcc,double amount){
+  void transfer(String fromAcc, String toAcc, double amount) {
     var from = findAccount(fromAcc);
     var to = findAccount(toAcc);
 
-    if(from==null||to==null){
+    if (from == null || to == null) {
       print("One or both accounts not found.");
       return;
     }
-    if(from.balance<amount){
+    if (from.balance < amount) {
       print("Insufficient balance.");
       return;
     }
+
     from.withdraw(amount);
     to.deposit(amount);
-    print("Amount of \$$amount was transfered in $toAcc by $fromAcc.");
+    print("Amount of \$$amount transferred from $fromAcc to $toAcc.");
   }
 
-  void generateReport(){
-    print("-------Bank Report--------");
-    for(var acc in _accounts){
+  void generateReport() {
+    print("\n------- Bank Report --------");
+    for (var acc in _accounts) {
       acc.displayInfo();
     }
   }
+}
 
+// -------------------------------------
+// Main Function
+// -------------------------------------
+void main() {
+  var bank = Bank();
 
+  var savings = SavingsAccount(
+      actNumber: "S123", actName: "Ram Dahal", balance: 20000);
+  var checking =
+      CheckingAccount(actNumber: "C234", actName: "Hari Kunwar", balance: 3000);
+  var premium =
+      PremiumAccount(actNumber: "P456", actName: "John Peter", balance: 70000);
 
+  bank.createBankAccount(savings);
+  bank.createBankAccount(checking);
+  bank.createBankAccount(premium);
+
+  savings.deposit(300);
+  savings.withdraw(100);
+  savings.calculateInterest();
+
+  checking.deposit(400);
+  checking.withdraw(200);
+
+  premium.deposit(500);
+  premium.withdraw(400);
+  premium.calculateInterest();
+
+  bank.transfer("S123", "C234", 500);
+  bank.generateReport();
 }
