@@ -192,4 +192,13 @@ class Bank{
     _accounts.add(account);
     print("Bank account of Account Number:${_accounts.accountNumber} was created sucessfully.");
   }
+  BankAccount? findAccount(String accountNumber){
+    for(var account in _accounts){
+      if(account.accountNumber==accountNumber){
+        return account;
+      }
+    }
+    return null;
+  }
+  
 }
