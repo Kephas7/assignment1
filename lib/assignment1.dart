@@ -219,6 +219,13 @@ class Bank{
     print("Amount of \$$amount was transfered in $toAcc by $fromAcc.");
   }
 
+  void generateReport(){
+    print("-------Bank Report--------");
+    for(var acc in _accounts){
+      acc.displayInfo();
+    }
+  }
+
 
 
 }
