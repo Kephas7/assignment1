@@ -1,7 +1,7 @@
 abstract class BankAccount{
-  final int _actNumber;
-  final String _actName;
-  final double _balance;
+  String _actNumber;
+  String _actName;
+  double _balance;
 
   BankAccount({
     required this._actNumber,
@@ -9,20 +9,20 @@ abstract class BankAccount{
     required this._balance
   });
 
-  int get getactNumber{
+  int get accountNumber{
     return _actNumber;
   }
   set setactNumber(int actNumber){
     _actNumber=actNumber;
   }
 
-  String get getactName{
+  String get holderName{
     return _actName;
   }
   set setactName(String actName){
     _actName=actName;
   }
-  int get getBalance{
+  int get balance{
     return _balance;
   }
   set setBalance(double balance){
@@ -180,7 +180,16 @@ class PreminumAccount extends BankAccount implements InterestBearing{
   void calculateInterest() {
     double interestAmt = _balance*_interrestRate;
     updateBalance(_balance+interestAmt);
-    print("Interest of \$$interestAmt was added.")
+    print("Interest of \$$interestAmt was added.");
   }
 
+}
+
+class Bank{
+  final List<BankAccount> _accounts=[];
+
+  void createBankAccount(BankAccount account){
+    _accounts.add(account);
+    print("Bank account of Account Number:${_accounts.accountNumber} was created sucessfully.");
+  }
 }
