@@ -9,7 +9,7 @@ abstract class BankAccount{
     required this._balance
   });
 
-  int get accountNumber{
+  String get accountNumber{
     return _actNumber;
   }
   set setactNumber(int actNumber){
@@ -192,6 +192,7 @@ class Bank{
     _accounts.add(account);
     print("Bank account of Account Number:${_accounts.accountNumber} was created sucessfully.");
   }
+
   BankAccount? findAccount(String accountNumber){
     for(var account in _accounts){
       if(account.accountNumber==accountNumber){
@@ -200,5 +201,24 @@ class Bank{
     }
     return null;
   }
-  
+
+  void tranfer(String fromAcc,String toAcc,double amount){
+    var from = findAccount(fromAcc);
+    var to = findAccount(toAcc);
+
+    if(from==null||to==null){
+      print("One or both accounts not found.");
+      return;
+    }
+    if(from.balance<amount){
+      print("Insufficient balance.");
+      return;
+    }
+    from.withdraw(amount);
+    to.deposit(amount);
+    print("Amount of \$$amount was transfered in $toAcc by $fromAcc.");
+  }
+
+
+
 }
