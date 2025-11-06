@@ -145,3 +145,35 @@ class CheckingAccount extends BankAccount{
 
 
 }
+
+class PreminumAccount extends BankAccount implements InterestBearing{
+  static const _minBalance=1000;
+  static const _interrestRate=0.05;
+
+  PreminumAccount({
+     required super._actNumber,
+    required super._actName,
+    required super._balance
+  });
+  @override
+  void deposit(double amount) {
+    if(amount>0){
+      updateBalance(_balance+amount);
+      print("$amount deposited into Current Account");
+    }else{
+      print("Deposit amount should be positive.");
+    }
+    
+  }
+
+  @override
+  void withdraw(double amount) {
+    // TODO: implement withdraw
+  }
+  
+  @override
+  void calculateInterest() {
+    // TODO: implement calculateInterest
+  }
+
+}
