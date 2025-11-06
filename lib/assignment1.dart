@@ -105,32 +105,23 @@ class SavingsAccount extends BankAccount implements InterestBearing{
   
 }
 
-class CheckingAccount extends BankAccount{
+//Checking Account
+
+class CheckingAccount extends BankAccount implements InterestBearing{
   @override
-  double deposit() {
+  void calculateInterest() {
+    // TODO: implement calculateInterest
+  }
+
+  @override
+  void deposit(double amount) {
     // TODO: implement deposit
-    throw UnimplementedError();
   }
 
   @override
-  double withdraw() {
+  void withdraw(double amount) {
     // TODO: implement withdraw
-    throw UnimplementedError();
   }
 
-}
-
-class PremiumAccount extends BankAccount{
-  @override
-  double deposit() {
-    // TODO: implement deposit
-    throw UnimplementedError();
-  }
-
-  @override
-  double withdraw() {
-    // TODO: implement withdraw
-    throw UnimplementedError();
-  }
 
 }
