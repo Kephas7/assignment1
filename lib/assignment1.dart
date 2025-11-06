@@ -159,7 +159,7 @@ class PreminumAccount extends BankAccount implements InterestBearing{
   void deposit(double amount) {
     if(amount>0){
       updateBalance(_balance+amount);
-      print("$amount deposited into Current Account");
+      print("$amount deposited into Premium Account");
     }else{
       print("Deposit amount should be positive.");
     }
@@ -168,12 +168,19 @@ class PreminumAccount extends BankAccount implements InterestBearing{
 
   @override
   void withdraw(double amount) {
-    // TODO: implement withdraw
+    if(_balance-amount<_minBalance){
+      print("Minium balance of \$$_minBalance should be maintained.");
+      return;
+    }
+    updateBalance(_balance-amount);
+    print("Amount of \$$amount withdrawn from Premium Account");
   }
   
   @override
   void calculateInterest() {
-    // TODO: implement calculateInterest
+    double interestAmt = _balance*_interrestRate;
+    updateBalance(_balance+interestAmt);
+    print("Interest of \$$interestAmt was added.")
   }
 
 }
