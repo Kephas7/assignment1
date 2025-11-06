@@ -40,7 +40,7 @@ abstract class BankAccount{
 
   }
 
-  void updateBlance(double newAmount){
+  void updateBalance(double newAmount){
     _balance=newAmount;
   }
 
@@ -51,6 +51,7 @@ abstract class InterestBearing{
   void calculateInterest();
 }
 
+//Saving Account
 
 class SavingsAccount extends BankAccount implements InterestBearing{
 
@@ -66,13 +67,10 @@ class SavingsAccount extends BankAccount implements InterestBearing{
 
   });
 
-
-
-
   @override
   void deposit(double amount) {
     if(amount>0){
-      updateBlance(_balance+amount);
+      updateBalance(_balance+amount);
       print("Rs.$amount deposited into Saving Account");
     }else{
       print("Deposit amount should be positive.");
@@ -91,7 +89,7 @@ class SavingsAccount extends BankAccount implements InterestBearing{
     if(_balance-amount<_minBalance){
       print("Cannot withdraw: Mininum withdraw amount is $_minBalance");
     }
-    updateBlance(_balance - amount);
+    updateBalance(_balance - amount);
     _withdrawalCount++;
     print("Amount of Rs.$amount withdrawn from Saving Account");
     
@@ -99,7 +97,10 @@ class SavingsAccount extends BankAccount implements InterestBearing{
   
   @override
   void calculateInterest() {
-    // TODO: implement calculateInteres
+    double interestAmt = _balance*_interrestRate;
+    updateBalance(_balance+interestAmt);
+    print("Interest of $interestAmt was added.");
+    
   }
   
 }
