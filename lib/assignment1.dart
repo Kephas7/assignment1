@@ -91,6 +91,10 @@ class SavingsAccount extends BankAccount implements InterestBearing{
     if(_balance-amount<_minBalance){
       print("Cannot withdraw: Mininum withdraw amount is $_minBalance");
     }
+    updateBlance(_balance - amount);
+    _withdrawalCount++;
+    print("Amount of Rs.$amount withdrawn from Saving Account");
+    
   }
   
   @override
